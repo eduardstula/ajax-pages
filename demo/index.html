@@ -20,15 +20,31 @@
 <h1>Ajax Pages</h1>
 
 <div id="content">
-    <a href="page1.html" data-link="ajax">Load page 1</a>
+    <h3>Anchor</h3>
+    <p>
+        <a href="page1.html" data-link="ajax">Load page 1</a>
+    </p>
+
+    <h3>Input</h3>
+    <form data-link="ajax">
+        <input type="text" name="search" value="">
+    </form>
+
+    <h3>Select</h3>
+    <form data-link="ajax">
+        <select name="choice">
+            <option value=""> --- select --- </option>
+            <option value="yes">yes</option>
+            <option value="no">no</option>
+        </select>
+    </form>
+
     <div id="loadingContent"><div class="spinner"></div></div>
 </div>
 
 <script>
     $(document).ready(function() {
-        ajaxPages({
-
-        });
+        ajaxPages();
     });
 </script>
 </body>

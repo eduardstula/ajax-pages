@@ -42,11 +42,11 @@ Kliknutí na všechny odkazy obsahující data atrtibut `data-link="ajax"` načt
 ```
 
 ### Formuláře
-Při změně v označeném formuláři se převedou hodnoty z formulářů do URL adresy ve formátu `?name=value`.
+Při změně v označeném formuláři se převedou hodnoty z formulářů do URL adresy ve formátu `?name=value`. Podporuje `input[type=“text”]`, `select`.
  
 ```html
 <form data-link='ajax'>
-    <input name="search" value="">
+    <input type="text" name="search" value="">
 </form>
 ```
 
