@@ -1,0 +1,18 @@
+{
+  "name": "ajax-pages",
+  "version": "1.0.0",
+  "author": "http://www.eduardstula.cz/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eduardstula/ajax-pages"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "uglify-js": "^2.7.5"
+  },
+  "scripts": {
+    "js": "node compile-js.js",
+    "watch:js": "chokidar js/**/*.js -c \"npm run js\""
+  }
+}

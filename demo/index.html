@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax Pages</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../dist/ajax-pages.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+
+        }
+        #content {
+            border: 1px dashed grey;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+<h1>Ajax Pages</h1>
+
+<div id="content">
+    <a href="page1.html" data-link="ajax">Load page 1</a>
+    <div id="loadingContent"><div class="spinner"></div></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        ajaxPages({
+
+        });
+    });
+</script>
+</body>
+</html>
