@@ -13,6 +13,6 @@
   },
   "scripts": {
     "js": "node compile-js.js",
-    "watch:js": "chokidar js/**/*.js -c \"npm run js\""
+    "watch:js": "chokidar src/**/*.js -c \"npm run js\""
   }
 }

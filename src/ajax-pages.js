@@ -1,6 +1,11 @@
 var isTyping = false;
 var focusedInput = null;
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 function ajaxPages(options) {
 
     var TITLE_SELECTOR = 'title';
@@ -101,9 +106,9 @@ function ajaxPages(options) {
                         }, opts.scrollTopDuration);
                     }
 
-                    if(focusedInput) {
+                    if (focusedInput) {
                         input = $('input[name="' + focusedInput + '"]');
-                        if(input.length === 1) {
+                        if (input.length === 1) {
                             input[0].focus();
                             var value = input.val();
                             input.val("").val(value);
@@ -119,8 +124,29 @@ function ajaxPages(options) {
     }
 
     function removeParameter(key, url) {
-        var valRegex = new RegExp("([?&])" + key + "=.*?(&|#|$)")
+        var valRegex = new RegExp("([?&])" + key + "=.*?(&|#|$)", "g");
+        return url.replaceAll(valRegex, '$1');
+    }
+
+    function removeValueParameter(key, value, url) {
+        var valRegex = new RegExp("([?&])" + key + "=" + value + "(&|#|$)");
         return url.replace(valRegex, '$1');
+    }
+
+    function resolveFormParameter(key, val, url, separator) {
+        if (val === "") {
+            url = removeParameter(key, url);
+        }
+        else if (url.indexOf(key) !== -1 && key.indexOf("[]") === -1) {
+
+            var valRegex = new RegExp('(' + key + '=)[^\&]+');
+            url = url.replace(valRegex, '$1' + val);
+        }
+        else {
+            url = url + separator + key + "=" + val;
+        }
+
+        return url;
     }
 
     window.onpopstate = function (e) {
@@ -160,7 +186,7 @@ function ajaxPages(options) {
                 separator = "&";
             }
 
-            $(ele).find("input[type='text'], select").each(function () {
+            $(ele).find("input, select").each(function () {
 
                 $(this).on('input change', function () {
                     if (isTyping) {
@@ -180,16 +206,15 @@ function ajaxPages(options) {
 
                         url = removeParameter(opts.paginationKey, url);
 
-                        if (val === "") {
+                        if (key.indexOf("[]" !== -1)) {
                             url = removeParameter(key, url);
-                        }
-                        else if (url.indexOf(key) !== -1) {
 
-                            var valRegex = new RegExp('(' + key + '=)[^\&]+');
-                            url = url.replace(valRegex, '$1' + val);
+                            val =  $("input[name='" + key + "']:checked").each(function () {
+                                url = resolveFormParameter(key, $(this).val(), url, separator);
+                            });
                         }
                         else {
-                            url = url + separator + key + "=" + val;
+                            url = resolveFormParameter(key, val, url, separator);
                         }
 
                         url = url.replace('&&', '&');
