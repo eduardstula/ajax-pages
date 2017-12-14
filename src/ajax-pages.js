@@ -10,6 +10,7 @@ function ajaxPages(options) {
     var defaults = {
         rootSelector: 'body',
         replaceSelector: '#content',
+        replaceMethod: 'replace',
         searchSelector: '#content',
         loaderSelector: '#loadingContent',
         linkSelector: "a[data-link='ajax']",
@@ -65,11 +66,18 @@ function ajaxPages(options) {
             }
 
             setTimeout(function () {
-                body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
-                var $htmlData = $(body);
-                $htmlData = $htmlData.find(opts.searchSelector).html();
 
-                $(opts.replaceSelector).html($htmlData);
+                if(opts.replaceMethod === "replace") {
+                    body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                    var $htmlData = $(body);
+                    $htmlData = $htmlData.find(opts.searchSelector).html();
+
+                    $(opts.replaceSelector).html($htmlData);
+                }
+                else if(opts.replaceMethod === "append") {
+                    $(opts.replaceSelector).append(data);
+                }
+
                 $(opts.loaderSelector).fadeOut();
 
                 if (opts.changeTitle) {

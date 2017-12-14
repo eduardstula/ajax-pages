@@ -56,6 +56,7 @@ Při změně v označeném formuláři se převedou hodnoty z formulářů do UR
 | --------|---------|-------|
 | replaceSelector | Kontejner, do kterého se načítá obsah. | `'#content'` |
 | searchSelector | Kontejner, ve kterém se hledá obsah načtené stránky. | `'#content'` |
+| replaceMethod | 'replace' nahradí obsah kontejneru 'searchSelector'. 'append' vloží získaná data na konec kontejneru. | `'replace'` |
 | loaderSelector | CSS selektor pro zobrazení loading animace.  | `'#loadingContent'` |
 | linkSelector | CSS selektrok pro určení odkazů požadující AJAX načtení. | `"a[data-link='ajax']"` |
 | formSelector | CSS selektrok pro určení formuláře požadující AJAX načtení. | `"form[data-link='ajax']"` |
