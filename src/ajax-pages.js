@@ -73,7 +73,7 @@ function ajaxPages(options) {
             }
 
             setTimeout(function () {
-                body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                var body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                 var $htmlData = $(body);
 
                 $(opts.loaderSelector).fadeOut(function () {
