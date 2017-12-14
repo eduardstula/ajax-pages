@@ -27,6 +27,8 @@ function ajaxPages(options) {
         beforeLoading: function () {
         },
         afterLoading: function () {
+        },
+        onError: function () {
         }
     };
 
@@ -114,6 +116,9 @@ function ajaxPages(options) {
                 ajaxPages(options);
 
             }, loadTime);
+        }).fail(function() {
+            opts.onError();
+            $(opts.loaderSelector).fadeOut();
         });
     }
 

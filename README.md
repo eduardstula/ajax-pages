@@ -92,9 +92,18 @@ ajaxPages({
     }
 });
 ```
+Callback při chybě načtení stránky.
+
+```javascript
+ajaxPages({
+    onError: function () {
+        //todo
+    }
+});
+```
 
 ## Google Analytics
-Pokud je na webu použit měřící kód Google Analytics, při změně URL adresy se automaticky odesílá informace do Google Analytics o navštívené adrese.
+Pokud je na webu použit měřící kód Google Analytics, při změně URL adresy se automaticky odesílá informace do Google Analytics o navštívené adrese. Využívá funkci `ga`.
 
 ## Loading animace
 Pro přidání loading animace potřebujeme:
@@ -115,6 +124,5 @@ Příklad:
 - Podpora multicheckboxů (pole do url ?key[]=)
 - Umět určovat pořadí klíčů v URL pro lepší SEO
 - Podpora pro hezké url jako je /skoda/octavia/benzin
-- Metoda onError
 - Testy
 - Možnost při kroku zpět loadovat stránku místo načtení cache.
