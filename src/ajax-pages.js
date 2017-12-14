@@ -50,11 +50,6 @@ function ajaxPages(options) {
 
         var beg = new Date();
 
-        //Send page to Google Analytics
-        if (opts.enableAnalyticsTrack && typeof ga === "function") {
-            ga('send', 'pageview', url);
-        }
-
         $.get(url, function (data) {
             var then = new Date();
             var dif = then.getTime() - beg.getTime();
@@ -70,49 +65,53 @@ function ajaxPages(options) {
             setTimeout(function () {
                 body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                 var $htmlData = $(body);
+                $htmlData = $htmlData.find(opts.searchSelector).html();
 
-                $(opts.loaderSelector).fadeOut(function () {
-                    $htmlData = $htmlData.find(opts.searchSelector).html();
-                    $(opts.replaceSelector).html($htmlData);
+                $(opts.replaceSelector).html($htmlData);
+                $(opts.loaderSelector).fadeOut();
 
-                    opts.afterLoading();
-
-                    if (opts.changeTitle) {
-                        var newTitle = '';
-                        if (opts.titleSelector == TITLE_SELECTOR) {
-                            // In this case we need to capture the title inside the head tag
-                            var begIndex = data.indexOf(BEG_TITLE_TAG) + BEG_TITLE_TAG.length;
-                            var endIndex = data.indexOf(END_TITLE_TAG);
-                            newTitle = data.substring(begIndex, endIndex);
-                        }
-                        else {
-                            newTitle = $htmlData.find(opts.titleSelector).text();
-                        }
-                        document.title = newTitle;
+                if (opts.changeTitle) {
+                    var newTitle = '';
+                    if (opts.titleSelector == TITLE_SELECTOR) {
+                        // In this case we need to capture the title inside the head tag
+                        var begIndex = data.indexOf(BEG_TITLE_TAG) + BEG_TITLE_TAG.length;
+                        var endIndex = data.indexOf(END_TITLE_TAG);
+                        newTitle = data.substring(begIndex, endIndex);
                     }
-
-                    if (opts.enableUrlChange) {
-                        window.history.pushState({"html": $htmlData, "pageTitle": document.title}, "", url);
+                    else {
+                        newTitle = $htmlData.find(opts.titleSelector).text();
                     }
+                    document.title = newTitle;
+                }
 
-                    if (opts.scrollTop) {
-                        $('html, body').animate({
-                            scrollTop: $(opts.scrollTopSelector).offset().top
-                        }, opts.scrollTopDuration);
+                if (opts.enableUrlChange) {
+                    window.history.pushState({"html": $htmlData, "pageTitle": document.title}, "", url);
+                }
+
+                if (opts.scrollTop) {
+                    $('html, body').animate({
+                        scrollTop: $(opts.scrollTopSelector).offset().top
+                    }, opts.scrollTopDuration);
+                }
+
+                if (focusedInput) {
+                    input = $('input[name="' + focusedInput + '"]');
+                    if (input.length === 1) {
+                        input[0].focus();
+                        var value = input.val();
+                        input.val("").val(value);
                     }
+                    focusedInput = null;
+                }
 
-                    if(focusedInput) {
-                        input = $('input[name="' + focusedInput + '"]');
-                        if(input.length === 1) {
-                            input[0].focus();
-                            var value = input.val();
-                            input.val("").val(value);
-                        }
-                        focusedInput = null;
-                    }
+                //Send page to Google Analytics
+                if (opts.enableAnalyticsTrack && typeof ga === "function") {
+                    ga('send', 'pageview', url);
+                }
 
-                    ajaxPages(options);
-                });
+                opts.afterLoading();
+
+                ajaxPages(options);
 
             }, loadTime);
         });
