@@ -68,7 +68,7 @@ function ajaxPages(options) {
             setTimeout(function () {
 
                 if(opts.replaceMethod === "replace") {
-                    body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
+                    var body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                     var $htmlData = $(body);
                     $htmlData = $htmlData.find(opts.searchSelector).html();
 
@@ -105,7 +105,7 @@ function ajaxPages(options) {
                 }
 
                 if (focusedInput) {
-                    input = $('input[name="' + focusedInput + '"]');
+                    var input = $('input[name="' + focusedInput + '"]');
                     if (input.length === 1) {
                         input[0].focus();
                         var value = input.val();
