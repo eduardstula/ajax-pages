@@ -17,7 +17,15 @@ jQuery knihovna pro ovládání webové stránky pomocí AJAX.
 IE 10+, všechny klasické prohlížeče.
 
 ## Instalace
-Do HTML přidáme cestu k jQuery a knihovně ajax-pages.min.js. Soubor můžeme zahrnout do vlastního .js souboru, abychom nenačítali více souborů najednou.
+Do HTML přidáme cestu k jQuery a knihovně ajax-pages.min.js.
+
+### Pomocí npm
+Knihovnu můžeme nainstalovat do závislostí pomocí npm.
+```
+npm install ajax-pages --save
+```
+### Přímé stažení
+Knihovnu si můžete stáhnout přímo z GitHubu. Soubor s knihovnou naleznete v cestě dist/ajax-pages.min.js.
 
 Příklad:
 
