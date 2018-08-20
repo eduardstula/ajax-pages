@@ -37,7 +37,8 @@ function ajaxPages(options) {
 
     window.history.replaceState({
         "html": $(opts.searchSelector).html(),
-        "pageTitle": document.title
+        "pageTitle": document.title,
+        "isFromAjaxPages": true
     }, "", window.location.href);
 
     $(opts.loaderSelector).hide();
@@ -95,7 +96,7 @@ function ajaxPages(options) {
                 }
 
                 if (opts.enableUrlChange) {
-                    window.history.pushState({"html": $htmlData, "pageTitle": document.title}, "", url);
+                    window.history.pushState({"html": $htmlData, "pageTitle": document.title, "isFromAjaxPages": true}, "", url);
                 }
 
                 if (opts.scrollTop) {
@@ -136,7 +137,8 @@ function ajaxPages(options) {
     }
 
     window.onpopstate = function (e) {
-        if (e.state) {
+        console.log(e.state);
+        if (e.state && e.state.isFromAjaxPages) {
             $(opts.replaceSelector).html(e.state.html);
             document.title = e.state.pageTitle;
 
@@ -215,4 +217,3 @@ function ajaxPages(options) {
         });
     });
 }
-
