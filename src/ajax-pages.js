@@ -25,6 +25,7 @@ function ajaxPages(options) {
         titleSelector: "title",
         minLoadTime: 0,
         typingTimeout: 500,
+        loadOnPopState: false,
         beforeLoading: function () {
         },
         afterLoading: function () {
@@ -37,17 +38,12 @@ function ajaxPages(options) {
 
     window.history.replaceState({
         "html": $(opts.searchSelector).html(),
-        "pageTitle": document.title,
-        "isFromAjaxPages": true
+        "pageTitle": document.title
     }, "", window.location.href);
 
     $(opts.loaderSelector).hide();
 
     function loadContent(url) {
-
-        if (url === window.location.href) {
-            return false;
-        }
 
         opts.beforeLoading();
         $(opts.loaderSelector).fadeIn();
@@ -68,14 +64,14 @@ function ajaxPages(options) {
 
             setTimeout(function () {
 
-                if(opts.replaceMethod === "replace") {
+                if (opts.replaceMethod === "replace") {
                     var body = '<div>' + data.replace(/^[\s\S]*<body.*?>|<\/body>[\s\S]*$/ig, '') + '</div>';
                     var $htmlData = $(body);
                     $htmlData = $htmlData.find(opts.searchSelector).html();
 
                     $(opts.replaceSelector).html($htmlData);
                 }
-                else if(opts.replaceMethod === "append") {
+                else if (opts.replaceMethod === "append") {
                     $(opts.replaceSelector).append(data);
                 }
 
@@ -96,7 +92,9 @@ function ajaxPages(options) {
                 }
 
                 if (opts.enableUrlChange) {
-                    window.history.pushState({"html": $htmlData, "pageTitle": document.title, "isFromAjaxPages": true}, "", url);
+                    if (url !== window.location.href) {
+                        window.history.pushState({"html": $htmlData, "pageTitle": document.title}, "", url);
+                    }
                 }
 
                 if (opts.scrollTop) {
@@ -125,7 +123,7 @@ function ajaxPages(options) {
                 ajaxPages(options);
 
             }, loadTime);
-        }).fail(function() {
+        }).fail(function () {
             opts.onError();
             $(opts.loaderSelector).fadeOut();
         });
@@ -137,18 +135,30 @@ function ajaxPages(options) {
     }
 
     window.onpopstate = function (e) {
-        console.log(e.state);
-        if (e.state && e.state.isFromAjaxPages) {
-            $(opts.replaceSelector).html(e.state.html);
-            document.title = e.state.pageTitle;
 
-            //Send page to Google Analytics
-            if (opts.enableAnalyticsTrack && typeof ga === "function") {
-                ga('send', 'pageview', window.location.href);
+        if (e.state) {
+            if (opts.loadOnPopState) {
+                loadContent(window.location.href);
+                return true;
             }
+            else if (typeof e.state.html !== "undefined") {
+                $(opts.replaceSelector).html(e.state.html);
 
-            ajaxPages(options);
+                if (opts.changeTitle) {
+                    document.title = e.state.pageTitle;
+                }
+
+                //Send page to Google Analytics
+                if (opts.enableAnalyticsTrack && typeof ga === "function") {
+                    ga('send', 'pageview', window.location.href);
+                }
+
+                ajaxPages(options);
+                return true;
+            }
         }
+
+        window.location.href = window.location.href;
     };
 
     return $("html").find(opts.rootSelector).each(function (i, obj) {

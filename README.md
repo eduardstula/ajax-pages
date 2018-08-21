@@ -78,6 +78,7 @@ Při změně v označeném formuláři se převedou hodnoty z formulářů do UR
 | minLoadTime | Minimální čas loadingu - pozdrží vykreslení výsledku. | `0` |
 | rootSelector  | CSS selektor, ve kterém funkce pracuje.  | `body`    |
 | typingTimeout | Čas, po kterém se začne obsah načítat při přerušení psaní do `input`. | `500` |
+| loadOnPopState | Při kroku zpět/vpřed v prohlížeči načítá znovu aktuální obsah stránky pomocí AJAX.  | `false` |
 
 Příklad nastavení:
 
@@ -134,4 +135,3 @@ Příklad:
 - Umět určovat pořadí klíčů v URL pro lepší SEO
 - Podpora pro hezké url jako je /skoda/octavia/benzin
 - Testy
-- Možnost při kroku zpět loadovat stránku místo načtení cache.

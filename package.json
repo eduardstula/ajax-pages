@@ -1,6 +1,6 @@
 {
   "name": "ajax-pages",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "http://www.eduardstula.cz/",
   "license": "MIT",
   "repository": {
@@ -13,6 +13,6 @@
   },
   "scripts": {
     "js": "node compile-js.js",
-    "watch:js": "chokidar js/**/*.js -c \"npm run js\""
+    "watch:js": "chokidar src/**/*.js -c \"npm run js\""
   }
 }
