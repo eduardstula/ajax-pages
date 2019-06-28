@@ -184,7 +184,7 @@ function ajaxPages(options) {
                 separator = "&";
             }
 
-            $(ele).find("input[type='text'], select").each(function () {
+            $(ele).find("input[type='text'], input[type='radio'], select").each(function () {
 
                 $(this).on('input change', function () {
                     if (isTyping) {

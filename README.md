@@ -4,7 +4,7 @@ jQuery knihovna pro ovládání webové stránky pomocí AJAX.
 ## Klíčové vlastnosti
 
 - Označené odkazy načítá do zvoleného kontejneru.
-- Formulářové prvky (`input[type=“text”]`, `select`) reagují na změnu (`?name=value`) .
+- Formulářové prvky (`input[type=“text”], input[type=“radio”]`, `select`) reagují na změnu (`?name=value`) .
 - Při změně filtru logicky odstraní klíč se stránkováním (nastavitelně).
 - Mění aktuální URL v adresním řádku (pro možnost reloadu na konkrétní filtr).
 - Trackuje každou stránku do Google Analytics.
