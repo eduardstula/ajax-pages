@@ -170,8 +170,17 @@ function ajaxPages(options) {
         $.each($anchors, function (j, ele) {
             $(ele).attr('onclick', 'return false');
             $(ele).off().click(function (event) {
-                var url = $(event.target).attr('href');
-                loadContent(url);
+                var element = $(event.target);
+                for (i = 0; i < 10; i++) {
+                    if(typeof element.attr("href") === "undefined") {
+                        element = element.parent();
+                    }
+                    else {
+                        break;
+                    }
+                }
+
+                loadContent(element.attr('href'));
             });
         });
 
